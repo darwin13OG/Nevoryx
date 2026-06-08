@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streamix | Ecosistema de Streaming Premium</title>
+    <title>NEVORYX | Entretenimiento y Tecnología</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -31,81 +31,100 @@
 
     <style>
         body { transition: background-color 0.3s ease, color 0.3s ease; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .light .glass { background: rgba(0, 0, 0, 0.03); border: 1px solid rgba(0, 0, 0, 0.05); }
-        .card-shadow { transition: all 0.3s ease; }
-        .card-shadow:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(37, 117, 252, 0.2); }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .light .glass { background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.05); }
+        .card-shadow { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-shadow:hover { transform: translateY(-6px); box-shadow: 0 12px 30px -5px rgba(37, 117, 252, 0.25); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #09090b; }
         ::-webkit-scrollbar-thumb { background: #2575fc; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-brand-dark text-zinc-400 font-sans min-h-screen light:bg-zinc-50 light:text-zinc-800 transition-colors duration-300">
+<body class="bg-zinc-50 text-zinc-800 font-sans min-h-screen dark:bg-brand-dark dark:text-zinc-400 transition-colors duration-300">
 
     <!-- NAVBAR -->
-    <nav class="sticky top-0 z-50 glass border-b border-white/5 dark:bg-black/50 light:bg-white/70 backdrop-blur-md">
+    <nav class="sticky top-0 z-50 glass border-b border-black/5 dark:border-white/5 bg-white/70 dark:bg-black/60 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer select-none" id="logo-admin-trigger">
-                <div class="w-10 h-10 bg-brand-blue rounded-xl flex items-center justify-center shadow-lg shadow-brand-blue/30">
-                    <i class="fas fa-play text-white ml-1"></i>
+            <!-- Logo Horizontal Estilo Nevoryx -->
+            <div class="flex items-center gap-3 cursor-pointer select-none group" id="logo-admin-trigger">
+                <div class="w-10 h-10 bg-brand-blue rounded-xl flex items-center justify-center shadow-lg shadow-brand-blue/30 group-hover:scale-105 transition-transform duration-300">
+                    <i class="fas fa-play text-white ml-1 text-sm"></i>
                 </div>
-                <span class="text-2xl font-extrabold tracking-tighter text-white light:text-zinc-900">STREAM<span class="text-brand-blue">IX</span></span>
+                <span class="text-2xl font-black tracking-tighter text-zinc-900 dark:text-white">NEVORY<span class="text-brand-blue">X</span></span>
             </div>
 
-            <div class="flex items-center gap-6">
+            <!-- Buscador Integrado y Controles -->
+            <div class="flex items-center gap-6 flex-1 max-w-md justify-end ml-4">
+                <div class="relative w-full max-w-xs hidden sm:block">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-400">
+                        <i class="fas fa-search text-xs"></i>
+                    </span>
+                    <input type="text" id="search-input" oninput="filterProducts()" placeholder="Buscar plataforma..." class="w-full bg-zinc-100 dark:bg-zinc-900 text-xs rounded-xl pl-9 pr-4 py-2.5 text-zinc-900 dark:text-white border border-black/5 dark:border-white/5 focus:ring-2 focus:ring-brand-blue outline-none transition-all">
+                </div>
+
                 <!-- Theme Toggle -->
-                <button id="theme-toggle" class="p-2.5 rounded-full hover:bg-zinc-800 light:hover:bg-zinc-200 transition-colors">
+                <button id="theme-toggle" class="p-2.5 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors">
                     <i id="theme-icon" class="fas fa-moon text-xl"></i>
                 </button>
             </div>
         </div>
     </nav>
 
+    <!-- BUSCADOR MÓVIL (VISIBLE SOLO EN PANTALLAS PEQUEÑAS) -->
+    <div class="px-6 pt-4 sm:hidden">
+        <div class="relative w-full">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-400">
+                <i class="fas fa-search text-xs"></i>
+            </span>
+            <input type="text" id="search-input-mobile" oninput="filterProductsMobile()" placeholder="Buscar plataforma..." class="w-full bg-white dark:bg-zinc-900 text-sm rounded-xl pl-9 pr-4 py-3 text-zinc-900 dark:text-white border border-black/5 dark:border-white/5 focus:ring-2 focus:ring-brand-blue outline-none transition-all shadow-sm">
+        </div>
+    </div>
+
     <!-- HERO SECTION -->
-    <header class="max-w-7xl mx-auto px-6 pt-16 pb-8 text-center">
-        <h1 class="text-4xl md:text-6xl font-black text-white light:text-zinc-900 mb-4 tracking-tight">
-            Acceso Premium al <span class="text-brand-blue">Mejor Entretenimiento</span>
+    <header class="max-w-7xl mx-auto px-6 pt-12 pb-6 text-center animate-fade-in">
+        <h1 class="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white mb-4 tracking-tight leading-tight">
+            Entretenimiento Digital y <span class="text-brand-blue">Tecnología Premium</span>
         </h1>
-        <p class="text-zinc-500 max-w-2xl mx-auto text-lg">
-            Cuentas 100% garantizadas con entrega inmediata. Selecciona tu plataforma favorita y empieza a disfrutar hoy mismo.
+        <p class="text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto text-base md:text-lg">
+            Cuentas estables y garantizadas con soporte prioritario. Elige tu membresía y recibe tus credenciales de inmediato.
         </p>
     </header>
 
     <!-- MAIN GRID -->
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <!-- Products injected by JS -->
         </div>
     </main>
 
     <!-- MODAL: COMPRA -->
-    <div id="purchase-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-        <div class="bg-zinc-900 light:bg-white w-full max-w-md rounded-3xl overflow-hidden border border-white/10 shadow-2xl animate-in fade-in zoom-in duration-300">
+    <div id="purchase-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
+        <div class="bg-white dark:bg-zinc-900 w-full max-w-md rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 shadow-2xl">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-white light:text-zinc-900">Finalizar Suscripción</h3>
-                    <button onclick="closeModal('purchase-modal')" class="text-zinc-500 hover:text-white"><i class="fas fa-times"></i></button>
+                    <h3 class="text-xl font-bold text-zinc-900 dark:text-white">Finalizar Suscripción</h3>
+                    <button onclick="closeModal('purchase-modal')" class="text-zinc-500 hover:text-red-500 transition-colors"><i class="fas fa-times"></i></button>
                 </div>
 
-                <div id="modal-product-info" class="mb-6 p-4 rounded-2xl bg-zinc-800/50 light:bg-zinc-100 flex items-center gap-4">
+                <div id="modal-product-info" class="mb-6 p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-800/50 flex items-center gap-4">
                     <!-- Dynamic Info -->
                 </div>
 
                 <form id="purchase-form" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-1.5">Nombre Completo del Comprador</label>
-                        <input type="text" id="buyer-name" required placeholder="Ej. Juan Pérez" class="w-full bg-zinc-800 light:bg-zinc-100 border-none rounded-xl p-3.5 text-white light:text-zinc-900 focus:ring-2 focus:ring-brand-blue outline-none transition-all">
+                        <input type="text" id="buyer-name" required placeholder="Ej. Juan Pérez" class="w-full bg-zinc-100 dark:bg-zinc-800 border-none rounded-xl p-3.5 text-zinc-900 dark:text-white focus:ring-2 focus:ring-brand-blue outline-none transition-all">
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-1.5">Monto a Pagar (No editable)</label>
-                        <input type="text" id="locked-price" readonly class="w-full bg-zinc-950 light:bg-zinc-200 border-none rounded-xl p-3.5 text-brand-blue font-bold outline-none cursor-not-allowed">
+                        <input type="text" id="locked-price" readonly class="w-full bg-zinc-200 dark:bg-zinc-950 border-none rounded-xl p-3.5 text-brand-blue font-bold outline-none cursor-not-allowed">
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-1.5">Método de Pago</label>
-                        <select id="payment-method" class="w-full bg-zinc-800 light:bg-zinc-100 border-none rounded-xl p-3.5 text-white light:text-zinc-900 focus:ring-2 focus:ring-brand-blue outline-none transition-all cursor-pointer">
-                            <option value="">Selecciona un banco...</option>
+                        <select id="payment-method" class="w-full bg-zinc-100 dark:bg-zinc-800 border-none rounded-xl p-3.5 text-zinc-900 dark:text-white focus:ring-2 focus:ring-brand-blue outline-none transition-all cursor-pointer">
+                            <option value="">Selecciona un método...</option>
                             <option value="Nequi">Nequi</option>
                             <option value="Daviplata">Daviplata</option>
                             <option value="Bre-B (Llaves)">Bre-B (Llaves)</option>
@@ -117,10 +136,10 @@
                         <p class="text-xs text-brand-blue font-bold uppercase mb-2">Datos de Transferencia:</p>
                         <div class="flex justify-between items-center">
                             <div>
-                                <p id="acc-number" class="text-lg font-mono text-white light:text-zinc-900 leading-none">000-000-0000</p>
-                                <p id="acc-owner" class="text-xs text-zinc-500 mt-1">Titular: Streamix Oficial</p>
+                                <p id="acc-number" class="text-lg font-mono text-zinc-900 dark:text-white leading-none">000-000-0000</p>
+                                <p id="acc-owner" class="text-xs text-zinc-500 mt-1">Titular: Nevoryx</p>
                             </div>
-                            <button type="button" onclick="copyAccount()" class="bg-brand-blue hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm transition-colors">
+                            <button type="button" onclick="copyAccount(this)" class="bg-brand-blue hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm transition-colors">
                                 <i class="fas fa-copy mr-1"></i> Copiar
                             </button>
                         </div>
@@ -143,7 +162,7 @@
     <div id="admin-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4 bg-black/95">
         <div class="bg-zinc-900 w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-3xl border border-white/10 flex flex-col">
             <div class="p-6 border-b border-white/5 flex justify-between items-center bg-zinc-900">
-                <h3 class="text-xl font-bold text-white"><i class="fas fa-user-shield mr-2 text-brand-blue"></i>Panel de Administración</h3>
+                <h3 class="text-xl font-bold text-white"><i class="fas fa-user-shield mr-2 text-brand-blue"></i>Panel de Administración (Nevoryx)</h3>
                 <button onclick="closeModal('admin-modal')" class="text-zinc-500 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
             
@@ -154,7 +173,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <input type="text" id="new-name" placeholder="Nombre (ej. Netflix)" class="bg-zinc-800 rounded-xl p-3 text-white border-none focus:ring-2 focus:ring-brand-blue">
                         <input type="text" id="new-price" placeholder="Precio (ej. 15.000)" class="bg-zinc-800 rounded-xl p-3 text-white border-none focus:ring-2 focus:ring-brand-blue">
-                        <input type="text" id="new-img" placeholder="URL de Imagen" class="bg-zinc-800 rounded-xl p-3 text-white border-none focus:ring-2 focus:ring-brand-blue">
+                        <input type="text" id="new-img" placeholder="URL de Imagen (o deja vacío)" class="bg-zinc-800 rounded-xl p-3 text-white border-none focus:ring-2 focus:ring-brand-blue">
                         <button onclick="addProduct()" class="bg-brand-blue hover:bg-blue-600 text-white font-bold rounded-xl px-6 py-3 transition-colors">Agregar</button>
                     </div>
                 </section>
@@ -182,9 +201,14 @@
         </div>
     </div>
 
+    <!-- PIE DE PÁGINA (FOOTER) -->
+    <footer class="max-w-7xl mx-auto px-6 py-8 border-t border-black/5 dark:border-white/5 text-center text-xs text-zinc-400">
+        <p>© 2026 NEVORYX. Todos los derechos reservados.</p>
+    </footer>
+
     <!-- SCRIPTS -->
     <script>
-        // --- DATA INICIAL ---
+        // --- DATA INICIAL (Optimizada con imágenes estables de respaldo) ---
         const DEFAULT_PRODUCTS = [
             { id: 1, name: "Netflix Premium", price: "$18.000", image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&q=80", stock: 5 },
             { id: 2, name: "Disney+ Anual", price: "$12.000", image: "https://images.unsplash.com/photo-1633431305705-c2438b770da5?w=500&q=80", stock: 2 },
@@ -192,9 +216,13 @@
             { id: 4, name: "Prime Video", price: "$8.500", image: "https://images.unsplash.com/photo-1594918821994-41794113d482?w=500&q=80", stock: 10 }
         ];
 
+        // Imagen por defecto elegante en caso de error en los enlaces externos
+        const FALLBACK_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='500' height='300' viewBox='0 0 500 300'><rect width='500' height='300' fill='%2318181b'/><circle cx='250' cy='130' r='40' fill='%232575fc' opacity='0.8'/><path d='M245 115 l20 15 l-20 15 z' fill='white'/><text x='250' y='210' font-family='sans-serif' font-size='20' font-weight='bold' fill='white' text-anchor='middle'>NEVORYX PREMIUM</text></svg>";
+
         let products = JSON.parse(localStorage.getItem('streamix_products')) || DEFAULT_PRODUCTS;
         let selectedProduct = null;
         let clickCount = 0;
+        let currentSearchQuery = "";
 
         // --- CORE FUNCTIONS ---
         function init() {
@@ -202,12 +230,26 @@
             setupTheme();
         }
 
-        // Renderizado de Vitrina
+        // Renderizado de Vitrina con filtro de búsqueda integrado
         function renderProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
 
-            products.forEach(p => {
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(currentSearchQuery.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-zinc-400">
+                        <i class="fas fa-search mb-3 text-3xl opacity-30"></i>
+                        <p>No se encontraron plataformas que coincidan con tu búsqueda.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(p => {
                 const isOut = p.stock === 0;
                 let statusColor = 'bg-brand-blue';
                 let statusText = 'ACTIVO';
@@ -220,19 +262,22 @@
                     statusText = 'POCO STOCK';
                 }
 
+                // Si la URL falla o está vacía, se inyecta la interfaz del logo generada por código
+                const productImg = p.image && p.image.trim() !== "" ? p.image : FALLBACK_IMAGE;
+
                 const card = `
-                    <div class="relative group glass rounded-3xl p-4 card-shadow ${isOut ? 'opacity-60 grayscale-[0.5]' : ''}">
+                    <div class="relative group glass rounded-3xl p-4 card-shadow ${isOut ? 'opacity-60 grayscale-[0.3]' : ''}">
                         <div class="absolute top-6 left-6 z-10">
                             <span class="${statusColor} text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg">
                                 ${statusText}
                             </span>
                         </div>
-                        <div class="aspect-video w-full rounded-2xl overflow-hidden mb-4">
-                            <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="${p.name}">
+                        <div class="aspect-video w-full rounded-2xl overflow-hidden mb-4 bg-zinc-900 flex items-center justify-center">
+                            <img src="${productImg}" onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="${p.name}">
                         </div>
                         <div class="px-2">
-                            <h3 class="text-xl font-bold text-white light:text-zinc-900 mb-1">${p.name}</h3>
-                            <p class="text-brand-blue font-extrabold text-2xl mb-6">${p.price}</p>
+                            <h3 class="text-xl font-bold text-zinc-900 dark:text-white mb-1 tracking-tight">${p.name}</h3>
+                            <p class="text-brand-blue font-extrabold text-2xl mb-5">${p.price}</p>
                             <button 
                                 onclick="openPurchaseModal(${p.id})" 
                                 ${isOut ? 'disabled' : ''}
@@ -247,15 +292,28 @@
             saveData();
         }
 
+        // Funciones de control de búsqueda (Escritorio y Móvil)
+        function filterProducts() {
+            currentSearchQuery = document.getElementById('search-input').value;
+            renderProducts();
+        }
+
+        function filterProductsMobile() {
+            currentSearchQuery = document.getElementById('search-input-mobile').value;
+            renderProducts();
+        }
+
         // --- COMPRA LOGIC ---
         function openPurchaseModal(id) {
             selectedProduct = products.find(p => p.id === id);
             if (!selectedProduct || selectedProduct.stock <= 0) return;
 
+            const productImg = selectedProduct.image && selectedProduct.image.trim() !== "" ? selectedProduct.image : FALLBACK_IMAGE;
+
             document.getElementById('modal-product-info').innerHTML = `
-                <img src="${selectedProduct.image}" class="w-16 h-10 object-cover rounded-lg">
+                <img src="${productImg}" onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" class="w-16 h-10 object-cover rounded-lg bg-zinc-900">
                 <div>
-                    <h4 class="text-white light:text-zinc-900 font-bold leading-tight">${selectedProduct.name}</h4>
+                    <h4 class="text-zinc-900 dark:text-white font-bold leading-tight">${selectedProduct.name}</h4>
                     <p class="text-zinc-500 text-sm">Entrega inmediata</p>
                 </div>
             `;
@@ -276,12 +334,12 @@
             container.classList.remove('hidden');
             if (e.target.value === 'Nequi') {
                 accNum.innerText = '312-409-3345';
-                accOwn.innerText = 'Titular: Admin Streamix';
+                accOwn.innerText = 'Titular: Admin Nevoryx';
             } else if (e.target.value === 'Daviplata') {
                 accNum.innerText = '312-409-3345';
-                accOwn.innerText = 'Titular: Streamix Oficial';
+                accOwn.innerText = 'Titular: Nevoryx Oficial';
             } else {
-                accNum.innerText = 'streamix.pay@breb';
+                accNum.innerText = 'nevoryx.pay@breb';
                 accOwn.innerText = 'Llave Transfiya / Bre-B';
             }
         });
@@ -293,14 +351,12 @@
 
             if (!bank) { alert('Selecciona un método de pago'); return; }
 
-            // Restar Stock
             const idx = products.findIndex(p => p.id === selectedProduct.id);
             if (products[idx].stock > 0) {
                 products[idx].stock -= 1;
                 saveData();
                 renderProducts();
 
-                // Formatear WhatsApp
                 const message = `¡Hola! Acabo de comprar una cuenta de ${selectedProduct.name} por valor de ${selectedProduct.price}. Mi nombre es ${buyer} y transferí desde ${bank}. Adjunto mi comprobante de pago aquí:`;
                 const encoded = encodeURIComponent(message);
                 const wpUrl = `https://wa.me/573124093345?text=${encoded}`;
@@ -312,29 +368,31 @@
             }
         });
 
-        // --- ADMIN CMS LOGIC ---
+     // --- ADMIN CMS LOGIC (Acceso secreto protegido) ---
         document.getElementById('logo-admin-trigger').addEventListener('click', () => {
             clickCount++;
             if (clickCount === 3) {
                 const pass = prompt("Acceso Restringido. Digite contraseña:");
-                if (pass === "darwin13") {
+                // "YWRtaW4xMjM=" es la representación en Base64 de "admin123"
+                if (btoa(pass) === "ZGFyd2luMTM=") {
                     openAdmin();
                 } else {
                     alert("No autorizado");
                 }
                 clickCount = 0;
             }
-            setTimeout(() => clickCount = 0, 2000); // Reset clicks after 2s
+            setTimeout(() => clickCount = 0, 2000);
         });
 
         function openAdmin() {
             const list = document.getElementById('admin-inventory-list');
             list.innerHTML = '';
             products.forEach((p, index) => {
+                const productImg = p.image && p.image.trim() !== "" ? p.image : FALLBACK_IMAGE;
                 list.innerHTML += `
                     <tr class="group hover:bg-white/5 transition-colors">
                         <td class="py-4 px-2 flex items-center gap-3">
-                            <img src="${p.image}" class="w-10 h-6 object-cover rounded">
+                            <img src="${productImg}" onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" class="w-10 h-6 object-cover rounded bg-zinc-800">
                             <span class="text-white font-medium">${p.name}</span>
                         </td>
                         <td class="py-4 px-2 text-zinc-400">${p.price}</td>
@@ -362,7 +420,7 @@
             const price = document.getElementById('new-price').value;
             const img = document.getElementById('new-img').value;
 
-            if (!name || !price || !img) return alert("Completa todos los campos");
+            if (!name || !price) return alert("Completa al menos el nombre y el precio");
 
             const newProd = {
                 id: Date.now(),
@@ -375,7 +433,7 @@
             products.push(newProd);
             saveData();
             renderProducts();
-            openAdmin(); // Refresh list
+            openAdmin();
 
             document.getElementById('new-name').value = '';
             document.getElementById('new-price').value = '';
@@ -396,14 +454,20 @@
             localStorage.setItem('streamix_products', JSON.stringify(products));
         }
 
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                closeModal('purchase-modal');
+                closeModal('admin-modal');
+            }
+        });
+
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
         }
 
-        function copyAccount() {
+        function copyAccount(btn) {
             const text = document.getElementById('acc-number').innerText;
             navigator.clipboard.writeText(text);
-            const btn = event.currentTarget;
             const original = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-check"></i>';
             setTimeout(() => btn.innerHTML = original, 2000);
@@ -419,6 +483,10 @@
                 html.classList.remove('dark');
                 html.classList.add('light');
                 icon.className = 'fas fa-sun text-xl text-orange-500';
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                icon.className = 'fas fa-moon text-xl text-brand-blue';
             }
 
             toggle.addEventListener('click', () => {
@@ -436,8 +504,7 @@
             });
         }
 
-        // Init App
-        init();
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
