@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEVORYX | Entretenimiento y Tecnología</title>
+    <title>NEVORYX | Entretenimiento Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;600;700;800&display=swap" rel="stylesheet">
@@ -45,15 +46,15 @@
     <!-- NAVBAR -->
     <nav class="sticky top-0 z-50 glass border-b border-black/5 dark:border-white/5 bg-white/70 dark:bg-black/60 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Logo Horizontal Estilo Nevoryx -->
-            <div class="flex items-center gap-3 cursor-pointer select-none group" id="logo-admin-trigger">
+            <!-- Logo con ID en el texto -->
+            <div class="flex items-center gap-3 cursor-pointer select-none group">
                 <div class="w-10 h-10 bg-brand-blue rounded-xl flex items-center justify-center shadow-lg shadow-brand-blue/30 group-hover:scale-105 transition-transform duration-300">
                     <i class="fas fa-play text-white ml-1 text-sm"></i>
                 </div>
-                <span class="text-2xl font-black tracking-tighter text-zinc-900 dark:text-white">NEVORY<span class="text-brand-blue">X</span></span>
+                <span id="logo-admin-trigger" class="text-2xl font-black tracking-tighter text-zinc-900 dark:text-white">NEVORY<span class="text-brand-blue">X</span></span>
             </div>
 
-            <!-- Buscador Integrado y Controles -->
+            <!-- Buscador y Controles -->
             <div class="flex items-center gap-6 flex-1 max-w-md justify-end ml-4">
                 <div class="relative w-full max-w-xs hidden sm:block">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-400">
@@ -64,13 +65,13 @@
 
                 <!-- Theme Toggle -->
                 <button id="theme-toggle" class="p-2.5 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors">
-                    <i id="theme-icon" class="fas fa-moon text-xl"></i>
+                    <i id="theme-icon" class="fas fa-moon text-xl text-brand-blue"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- BUSCADOR MÓVIL (VISIBLE SOLO EN PANTALLAS PEQUEÑAS) -->
+    <!-- BUSCADOR MÓVIL -->
     <div class="px-6 pt-4 sm:hidden">
         <div class="relative w-full">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-400">
@@ -81,19 +82,19 @@
     </div>
 
     <!-- HERO SECTION -->
-    <header class="max-w-7xl mx-auto px-6 pt-12 pb-6 text-center animate-fade-in">
-        <h1 class="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white mb-4 tracking-tight leading-tight">
-            Entretenimiento Digital y <span class="text-brand-blue">Tecnología Premium</span>
+    <header class="max-w-7xl mx-auto px-6 pt-8 pb-4 text-center">
+        <h1 class="text-3xl md:text-5xl font-black text-zinc-900 dark:text-white mb-2 tracking-tight leading-tight">
+            Entretenimiento <span class="text-brand-blue">Premium</span>
         </h1>
-        <p class="text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto text-base md:text-lg">
-            Cuentas estables y garantizadas con soporte prioritario. Elige tu membresía y recibe tus credenciales de inmediato.
+        <p class="text-zinc-500 dark:text-zinc-400 max-w-md mx-auto text-sm md:text-base">
+            Cuentas estables, garantizadas y con entrega inmediata.
         </p>
     </header>
 
     <!-- MAIN GRID -->
-    <main class="max-w-7xl mx-auto px-6 py-8">
+    <main class="max-w-7xl mx-auto px-6 py-4">
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Products injected by JS -->
+            <!-- Productos cargados dinámicamente -->
         </div>
     </main>
 
@@ -106,9 +107,7 @@
                     <button onclick="closeModal('purchase-modal')" class="text-zinc-500 hover:text-red-500 transition-colors"><i class="fas fa-times"></i></button>
                 </div>
 
-                <div id="modal-product-info" class="mb-6 p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-800/50 flex items-center gap-4">
-                    <!-- Dynamic Info -->
-                </div>
+                <div id="modal-product-info" class="mb-6 p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-800/50 flex items-center gap-4"></div>
 
                 <form id="purchase-form" class="space-y-4">
                     <div>
@@ -131,15 +130,14 @@
                         </select>
                     </div>
 
-                    <!-- Bank Details Area -->
                     <div id="bank-details" class="hidden p-4 rounded-2xl bg-brand-blue/10 border border-brand-blue/20">
                         <p class="text-xs text-brand-blue font-bold uppercase mb-2">Datos de Transferencia:</p>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p id="acc-number" class="text-lg font-mono text-zinc-900 dark:text-white leading-none">000-000-0000</p>
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                            <div class="w-full">
+                                <div id="acc-number" class="font-mono text-zinc-900 dark:text-white leading-tight break-words">000-000-0000</div>
                                 <p id="acc-owner" class="text-xs text-zinc-500 mt-1">Titular: Nevoryx</p>
                             </div>
-                            <button type="button" onclick="copyAccount(this)" class="bg-brand-blue hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm transition-colors">
+                            <button type="button" onclick="copyAccount(this)" class="bg-brand-blue hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm transition-colors shrink-0 w-full sm:w-auto">
                                 <i class="fas fa-copy mr-1"></i> Copiar
                             </button>
                         </div>
@@ -149,7 +147,7 @@
                         <p class="text-[10px] text-zinc-500 text-center mb-4 italic">
                             ⚠️ Recuerda realizar primero tu transferencia antes de presionar confirmar compra.
                         </p>
-                        <button type="submit" class="w-full bg-brand-blue hover:bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-brand-blue/30 transition-all active:scale-[0.98]">
+                        <button type="submit" class="w-full bg-brand-blue hover:bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-brand-blue/30 transition-all">
                             Confirmar Compra
                         </button>
                     </div>
@@ -167,18 +165,16 @@
             </div>
             
             <div class="flex-1 overflow-y-auto p-6 space-y-8">
-                <!-- Add Product Form -->
                 <section>
                     <h4 class="text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Añadir Nueva Plataforma</h4>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <input type="text" id="new-name" placeholder="Nombre (ej. Netflix)" class="bg-zinc-800 rounded-xl p-3 text-white border-none focus:ring-2 focus:ring-brand-blue">
                         <input type="text" id="new-price" placeholder="Precio (ej. 15.000)" class="bg-zinc-800 rounded-xl p-3 text-white border-none focus:ring-2 focus:ring-brand-blue">
-                        <input type="text" id="new-img" placeholder="URL de Imagen (o deja vacío)" class="bg-zinc-800 rounded-xl p-3 text-white border-none focus:ring-2 focus:ring-brand-blue">
+                        <input type="text" id="new-img" placeholder="URL de Imagen" class="bg-zinc-800 rounded-xl p-3 text-white border-none focus:ring-2 focus:ring-brand-blue">
                         <button onclick="addProduct()" class="bg-brand-blue hover:bg-blue-600 text-white font-bold rounded-xl px-6 py-3 transition-colors">Agregar</button>
                     </div>
                 </section>
 
-                <!-- Inventory Table -->
                 <section>
                     <h4 class="text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Gestión de Stock</h4>
                     <div class="overflow-x-auto">
@@ -187,13 +183,11 @@
                                 <tr>
                                     <th class="pb-3 px-2">Producto</th>
                                     <th class="pb-3 px-2">Precio</th>
-                                    <th class="pb-3 px-2">Stock Actual</th>
+                                    <th class="pb-3 px-2 text-center">Stock</th>
                                     <th class="pb-3 px-2 text-right">Acción</th>
                                 </tr>
                             </thead>
-                            <tbody id="admin-inventory-list" class="divide-y divide-white/5">
-                                <!-- Inventory items injected by JS -->
-                            </tbody>
+                            <tbody id="admin-inventory-list" class="divide-y divide-white/5"></tbody>
                         </table>
                     </div>
                 </section>
@@ -201,38 +195,64 @@
         </div>
     </div>
 
-    <!-- PIE DE PÁGINA (FOOTER) -->
-    <footer class="max-w-7xl mx-auto px-6 py-8 border-t border-black/5 dark:border-white/5 text-center text-xs text-zinc-400">
+    <!-- FOOTER -->
+    <footer class="max-w-7xl mx-auto px-6 py-6 border-t border-black/5 dark:border-white/5 text-center text-xs text-zinc-400">
         <p>© 2026 NEVORYX. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- SCRIPTS -->
+    <!-- SCRIPTS CORREGIDOS -->
     <script>
-        // --- DATA INICIAL (Optimizada con imágenes estables de respaldo) ---
+        const SUPABASE_URL = "https://anhoncimcwqzektwfrba.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_ySTefqTBxnMNN4JNvX6TejQ_PzYyR3u_"; 
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         const DEFAULT_PRODUCTS = [
-            { id: 1, name: "Netflix Premium", price: "$18.000", image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&q=80", stock: 5 },
-            { id: 2, name: "Disney+ Anual", price: "$12.000", image: "https://images.unsplash.com/photo-1633431305705-c2438b770da5?w=500&q=80", stock: 2 },
-            { id: 3, name: "HBO Max (Max)", price: "$10.000", image: "https://images.unsplash.com/photo-1616469829581-73993eb86b02?w=500&q=80", stock: 0 },
-            { id: 4, name: "Prime Video", price: "$8.500", image: "https://images.unsplash.com/photo-1594918821994-41794113d482?w=500&q=80", stock: 10 }
+            { id: 1, name: "Netflix Premium", price: "$18.000", image: "https://images.ctfassets.net/y2ske730sjqp/1M95KKm2ZJSTw87dfK2scP/6f0b4059343af121e7def4a1bb2ae960/Netflix_Logo_RGB.png", stock: 5 },
+            { id: 2, name: "Disney+ Anual", price: "$12.000", image: "https://cnnespanol.cnn.com/wp-content/uploads/2020/11/201117105943-disney-plus-logo-full-169.jpg?quality=100&strip=all", stock: 2 },
+            { id: 3, name: "HBO Max (Max)", price: "$10.000", image: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg", stock: 0 },
+            { id: 4, name: "Prime Video", price: "$8.500", image: "https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg", stock: 10 }
         ];
 
-        // Imagen por defecto elegante en caso de error en los enlaces externos
         const FALLBACK_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='500' height='300' viewBox='0 0 500 300'><rect width='500' height='300' fill='%2318181b'/><circle cx='250' cy='130' r='40' fill='%232575fc' opacity='0.8'/><path d='M245 115 l20 15 l-20 15 z' fill='white'/><text x='250' y='210' font-family='sans-serif' font-size='20' font-weight='bold' fill='white' text-anchor='middle'>NEVORYX PREMIUM</text></svg>";
 
-        let products = JSON.parse(localStorage.getItem('streamix_products')) || DEFAULT_PRODUCTS;
+        let products = [];
         let selectedProduct = null;
         let clickCount = 0;
         let currentSearchQuery = "";
 
-        // --- CORE FUNCTIONS ---
+        // Inicialización independizada (Los botones funcionarán aunque falle la red)
         function init() {
-            renderProducts();
             setupTheme();
+            setupAdminTrigger();
+            fetchProductsFromSupabase();
         }
 
-        // Renderizado de Vitrina con filtro de búsqueda integrado
+        async function fetchProductsFromSupabase() {
+            try {
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .order('id', { ascending: true });
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    products = DEFAULT_PRODUCTS;
+                    renderProducts();
+                } else {
+                    products = data;
+                    renderProducts();
+                }
+            } catch (err) {
+                console.warn("Aviso: Ejecución local o sin red. Usando productos por defecto.");
+                products = DEFAULT_PRODUCTS;
+                renderProducts();
+            }
+        }
+
         function renderProducts() {
             const grid = document.getElementById('product-grid');
+            if(!grid) return;
             grid.innerHTML = '';
 
             const filtered = products.filter(p => 
@@ -243,7 +263,7 @@
                 grid.innerHTML = `
                     <div class="col-span-full text-center py-12 text-zinc-400">
                         <i class="fas fa-search mb-3 text-3xl opacity-30"></i>
-                        <p>No se encontraron plataformas que coincidan con tu búsqueda.</p>
+                        <p>No se encontraron plataformas.</p>
                     </div>
                 `;
                 return;
@@ -254,68 +274,41 @@
                 let statusColor = 'bg-brand-blue';
                 let statusText = 'ACTIVO';
 
-                if (p.stock === 0) {
-                    statusColor = 'bg-red-600';
-                    statusText = 'AGOTADO';
-                } else if (p.stock <= 3) {
-                    statusColor = 'bg-orange-500';
-                    statusText = 'POCO STOCK';
-                }
+                if (p.stock === 0) { statusColor = 'bg-red-600'; statusText = 'AGOTADO'; }
+                else if (p.stock <= 3) { statusColor = 'bg-orange-500'; statusText = 'POCO STOCK'; }
 
-                // Si la URL falla o está vacía, se inyecta la interfaz del logo generada por código
                 const productImg = p.image && p.image.trim() !== "" ? p.image : FALLBACK_IMAGE;
 
-                const card = `
+                grid.innerHTML += `
                     <div class="relative group glass rounded-3xl p-4 card-shadow ${isOut ? 'opacity-60 grayscale-[0.3]' : ''}">
                         <div class="absolute top-6 left-6 z-10">
-                            <span class="${statusColor} text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg">
-                                ${statusText}
-                            </span>
+                            <span class="${statusColor} text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg">${statusText}</span>
                         </div>
                         <div class="aspect-video w-full rounded-2xl overflow-hidden mb-4 bg-zinc-900 flex items-center justify-center">
-                            <img src="${productImg}" onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="${p.name}">
+                            <img src="${productImg}" onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
                         <div class="px-2">
                             <h3 class="text-xl font-bold text-zinc-900 dark:text-white mb-1 tracking-tight">${p.name}</h3>
                             <p class="text-brand-blue font-extrabold text-2xl mb-5">${p.price}</p>
-                            <button 
-                                onclick="openPurchaseModal(${p.id})" 
-                                ${isOut ? 'disabled' : ''}
-                                class="w-full py-3.5 rounded-xl font-bold transition-all ${isOut ? 'bg-zinc-800 text-zinc-600 cursor-not-allowed' : 'bg-brand-blue text-white hover:bg-blue-600 active:scale-95 shadow-lg shadow-brand-blue/20'}">
+                            <button onclick="openPurchaseModal(${p.id})" ${isOut ? 'disabled' : ''} class="w-full py-3.5 rounded-xl font-bold transition-all ${isOut ? 'bg-zinc-800 text-zinc-600 cursor-not-allowed' : 'bg-brand-blue text-white hover:bg-blue-600 active:scale-95 shadow-lg shadow-brand-blue/20'}">
                                 ${isOut ? 'No Disponible' : 'Comprar Ahora'}
                             </button>
                         </div>
                     </div>
                 `;
-                grid.innerHTML += card;
             });
-            saveData();
         }
 
-        // Funciones de control de búsqueda (Escritorio y Móvil)
-        function filterProducts() {
-            currentSearchQuery = document.getElementById('search-input').value;
-            renderProducts();
-        }
+        function filterProducts() { currentSearchQuery = document.getElementById('search-input').value; renderProducts(); }
+        function filterProductsMobile() { currentSearchQuery = document.getElementById('search-input-mobile').value; renderProducts(); }
 
-        function filterProductsMobile() {
-            currentSearchQuery = document.getElementById('search-input-mobile').value;
-            renderProducts();
-        }
-
-        // --- COMPRA LOGIC ---
         function openPurchaseModal(id) {
             selectedProduct = products.find(p => p.id === id);
             if (!selectedProduct || selectedProduct.stock <= 0) return;
-
             const productImg = selectedProduct.image && selectedProduct.image.trim() !== "" ? selectedProduct.image : FALLBACK_IMAGE;
-
             document.getElementById('modal-product-info').innerHTML = `
                 <img src="${productImg}" onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" class="w-16 h-10 object-cover rounded-lg bg-zinc-900">
-                <div>
-                    <h4 class="text-zinc-900 dark:text-white font-bold leading-tight">${selectedProduct.name}</h4>
-                    <p class="text-zinc-500 text-sm">Entrega inmediata</p>
-                </div>
+                <div><h4 class="text-zinc-900 dark:text-white font-bold leading-tight">${selectedProduct.name}</h4><p class="text-zinc-500 text-sm">Entrega inmediata</p></div>
             `;
             document.getElementById('locked-price').value = selectedProduct.price;
             document.getElementById('purchase-modal').classList.remove('hidden');
@@ -325,82 +318,67 @@
             const container = document.getElementById('bank-details');
             const accNum = document.getElementById('acc-number');
             const accOwn = document.getElementById('acc-owner');
-            
-            if (!e.target.value) {
-                container.classList.add('hidden');
-                return;
-            }
-
+            if (!e.target.value) { container.classList.add('hidden'); return; }
             container.classList.remove('hidden');
-            if (e.target.value === 'Nequi') {
-                accNum.innerText = '312-409-3345';
-                accOwn.innerText = 'Titular: Admin Nevoryx';
-            } else if (e.target.value === 'Daviplata') {
-                accNum.innerText = '312-409-3345';
-                accOwn.innerText = 'Titular: Nevoryx Oficial';
-            } else {
-                accNum.innerText = 'nevoryx.pay@breb';
-                accOwn.innerText = 'Llave Transfiya / Bre-B';
+            if (e.target.value === 'Nequi') { accNum.innerHTML = '312-409-3345'; accOwn.innerHTML = 'Titular: Darwin'; }
+            else if (e.target.value === 'Daviplata') { accNum.innerHTML = '312-409-3345'; accOwn.innerHTML = 'Titular: Durleny Castañeda'; }
+            else if (e.target.value === 'Bre-B (Llaves)') {
+                accNum.innerHTML = `<span class="block text-sm">📱 Cel: 3124093345</span><span class="block text-sm">📧 Correo: alzatedarwin13@gmail.com</span><span class="block text-sm">🪪 CC: 1004626377</span>`;
+                accOwn.innerHTML = 'Destinatario: Durleny Castañeda';
             }
         });
 
-        document.getElementById('purchase-form').addEventListener('submit', function(e) {
+        document.getElementById('purchase-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const buyer = document.getElementById('buyer-name').value;
             const bank = document.getElementById('payment-method').value;
-
-            if (!bank) { alert('Selecciona un método de pago'); return; }
-
             const idx = products.findIndex(p => p.id === selectedProduct.id);
             if (products[idx].stock > 0) {
-                products[idx].stock -= 1;
-                saveData();
+                const nuevoStock = products[idx].stock - 1;
+                try { await supabase.from('products').update({ stock: nuevoStock }).eq('id', selectedProduct.id); } catch(e){}
+                products[idx].stock = nuevoStock;
                 renderProducts();
-
-                const message = `¡Hola! Acabo de comprar una cuenta de ${selectedProduct.name} por valor de ${selectedProduct.price}. Mi nombre es ${buyer} y transferí desde ${bank}. Adjunto mi comprobante de pago aquí:`;
-                const encoded = encodeURIComponent(message);
-                const wpUrl = `https://wa.me/573124093345?text=${encoded}`;
-                
-                window.open(wpUrl, '_blank');
+                const message = `¡Hola Nevoryx! Compré: ${selectedProduct.name}.\n👤 Cliente: ${buyer}\n💰 Valor: ${selectedProduct.price}\n🏦 Pago: ${bank}`;
+                window.open(`https://wa.me/573124093345?text=${encodeURIComponent(message)}`, '_blank');
                 closeModal('purchase-modal');
                 this.reset();
                 document.getElementById('bank-details').classList.add('hidden');
             }
         });
 
-     // --- ADMIN CMS LOGIC (Acceso secreto protegido) ---
-        document.getElementById('logo-admin-trigger').addEventListener('click', () => {
-            clickCount++;
-            if (clickCount === 3) {
-                const pass = prompt("Acceso Restringido. Digite contraseña:");
-                // "YWRtaW4xMjM=" es la representación en Base64 de "admin123"
-                if (btoa(pass) === "ZGFyd2luMTM=") {
-                    openAdmin();
-                } else {
-                    alert("No autorizado");
+        // Configuración aislada del trigger administrativo
+        function setupAdminTrigger() {
+            const el = document.getElementById('logo-admin-trigger');
+            if(!el) return;
+            el.addEventListener('click', () => {
+                clickCount++;
+                if (clickCount === 3) {
+                    const pass = prompt("Acceso Restringido. Digite contraseña:");
+                    if (btoa(pass) === "ZGFyd2luMTM=") { openAdmin(); } 
+                    else { alert("No autorizado"); }
+                    clickCount = 0;
                 }
-                clickCount = 0;
-            }
-            setTimeout(() => clickCount = 0, 2000);
-        });
+                setTimeout(() => clickCount = 0, 2000);
+            });
+        }
 
         function openAdmin() {
             const list = document.getElementById('admin-inventory-list');
             list.innerHTML = '';
-            products.forEach((p, index) => {
+            products.forEach((p) => {
                 const productImg = p.image && p.image.trim() !== "" ? p.image : FALLBACK_IMAGE;
                 list.innerHTML += `
-                    <tr class="group hover:bg-white/5 transition-colors">
+                    <tr class="group hover:bg-white/5">
                         <td class="py-4 px-2 flex items-center gap-3">
                             <img src="${productImg}" onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" class="w-10 h-6 object-cover rounded bg-zinc-800">
                             <span class="text-white font-medium">${p.name}</span>
                         </td>
                         <td class="py-4 px-2 text-zinc-400">${p.price}</td>
-                        <td class="py-4 px-2">
-                            <input type="number" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" class="w-16 bg-zinc-800 text-white rounded-lg p-1 text-center border-none focus:ring-1 focus:ring-brand-blue">
+                        <td class="py-4 px-2 text-center">
+                            <input type="number" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" class="w-16 bg-zinc-800 text-white rounded-lg p-1 text-center border-none">
                         </td>
                         <td class="py-4 px-2 text-right">
-                            <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-400 p-2"><i class="fas fa-trash"></i></button>
+                            <button onclick="deleteProduct(${p.id})" class="text-red-500 p-2"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -408,68 +386,46 @@
             document.getElementById('admin-modal').classList.remove('hidden');
         }
 
-        function updateStock(id, val) {
+        async function updateStock(id, val) {
+            const stockNum = parseInt(val) || 0;
+            try { await supabase.from('products').update({ stock: stockNum }).eq('id', id); } catch(e){}
             const p = products.find(prod => prod.id === id);
-            if (p) p.stock = parseInt(val) || 0;
-            saveData();
+            if (p) p.stock = stockNum;
             renderProducts();
         }
 
-        function addProduct() {
+        async function addProduct() {
             const name = document.getElementById('new-name').value;
-            const price = document.getElementById('new-price').value;
+            let price = document.getElementById('new-price').value;
             const img = document.getElementById('new-img').value;
-
-            if (!name || !price) return alert("Completa al menos el nombre y el precio");
-
-            const newProd = {
-                id: Date.now(),
-                name,
-                price: price.startsWith('$') ? price : '$' + price,
-                image: img,
-                stock: 5
-            };
-
+            if (!name || !price) return alert("Completa los datos básicos");
+            price = price.startsWith('$') ? price : '$' + price;
+            const newProd = { id: Date.now(), name: name, price: price, image: img, stock: 5 };
+            try { await supabase.from('products').insert([newProd]); } catch(e){}
             products.push(newProd);
-            saveData();
             renderProducts();
             openAdmin();
-
             document.getElementById('new-name').value = '';
             document.getElementById('new-price').value = '';
             document.getElementById('new-img').value = '';
         }
 
-        function deleteProduct(id) {
+        async function deleteProduct(id) {
             if (confirm('¿Eliminar plataforma?')) {
+                try { await supabase.from('products').delete().eq('id', id); } catch(e){}
                 products = products.filter(p => p.id !== id);
-                saveData();
                 renderProducts();
                 openAdmin();
             }
         }
 
-        // --- UTILS ---
-        function saveData() {
-            localStorage.setItem('streamix_products', JSON.stringify(products));
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "Escape") {
-                closeModal('purchase-modal');
-                closeModal('admin-modal');
-            }
-        });
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
-
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        
         function copyAccount(btn) {
-            const text = document.getElementById('acc-number').innerText;
-            navigator.clipboard.writeText(text);
-            const original = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i>';
+            const method = document.getElementById('payment-method').value;
+            const textToCopy = method === 'Bre-B (Llaves)' ? '3124093345' : '312-409-3345';
+            navigator.clipboard.writeText(textToCopy);
+            const original = btn.innerHTML; btn.innerHTML = '<i class="fas fa-check"></i>';
             setTimeout(() => btn.innerHTML = original, 2000);
         }
 
@@ -477,27 +433,24 @@
             const toggle = document.getElementById('theme-toggle');
             const icon = document.getElementById('theme-icon');
             const html = document.documentElement;
+            if(!toggle || !icon) return;
 
             const savedTheme = localStorage.getItem('theme') || 'dark';
             if (savedTheme === 'light') {
-                html.classList.remove('dark');
-                html.classList.add('light');
+                html.classList.remove('dark'); html.classList.add('light');
                 icon.className = 'fas fa-sun text-xl text-orange-500';
             } else {
-                html.classList.remove('light');
-                html.classList.add('dark');
+                html.classList.remove('light'); html.classList.add('dark');
                 icon.className = 'fas fa-moon text-xl text-brand-blue';
             }
 
             toggle.addEventListener('click', () => {
                 if (html.classList.contains('dark')) {
-                    html.classList.remove('dark');
-                    html.classList.add('light');
+                    html.classList.remove('dark'); html.classList.add('light');
                     icon.className = 'fas fa-sun text-xl text-orange-500';
                     localStorage.setItem('theme', 'light');
                 } else {
-                    html.classList.remove('light');
-                    html.classList.add('dark');
+                    html.classList.remove('light'); html.classList.add('dark');
                     icon.className = 'fas fa-moon text-xl text-brand-blue';
                     localStorage.setItem('theme', 'dark');
                 }
