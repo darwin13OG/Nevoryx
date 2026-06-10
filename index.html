@@ -477,20 +477,25 @@
             price = price.startsWith('$') ? price : '$' + price;
 
             const newProd = {
-                id: Date.now(),
                 name: name,
                 price: price,
                 image: img,
                 stock: 5
             };
 
-            const { error } = await supabaseClient
-                .from('products')
-                .insert([newProd]);
+            const { data, error } = await supabaseClient
+    .from('products')
+    .insert([newProd])
+    .select();
 
-            if (error) return alert("Error al guardar el nuevo producto en Supabase");
+if (error) return alert("Error al guardar el nuevo producto en Supabase");
 
-            products.push(newProd);
+if (data && data.length > 0) {
+    products.push(data[0]);
+} else {
+    products.push(newProd);
+}
+            
             renderProducts();
             openAdmin();
 
