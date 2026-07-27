@@ -44,4 +44,4 @@ NEVORYX es una plataforma web de alto rendimiento diseñada para la comercializa
 Este proyecto nació de la necesidad de simplificar el comercio digital. En lugar de sistemas de registro complejos, Nevoryx apuesta por la **fricción cero**: El usuario entra, elige, paga y recibe. Una herramienta creada bajo los principios de velocidad, estética minimalista y efectividad.
 
 ---
-*Desarrollado con pasión por [Tu Nombre o Usuario de GitHub]*
+*Desarrollado con pasión por DarwinOG*
